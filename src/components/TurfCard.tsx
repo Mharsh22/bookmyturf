@@ -1,18 +1,55 @@
 import { Link } from "react-router-dom";
+
 type TurfCardProps = {
-  id: number;  
+  id: number;
   name: string;
   price: string;
+  location: string;
 };
-const TurfCard = ({id, name,price}: TurfCardProps) => {
-    return (
-        <div className="border rounded-2xl p-4 shadow-sm space-y-1">
-            <div className="h-48 bg-gray-200 rounded-xl"></div>
-            <p className="text-xl font-semibold">{name}</p>
-            <p className="text-gray-600">{price}</p>
-            <Link to={`/turf-details/${id}`} className="bg-black text-white px-4 py-2 rounded-lg w-full hover:bg-gray-800 transition">Book Now</Link>
-        </div>
-    )
-}
 
-export default TurfCard
+const TurfCard = ({
+  id,
+  name,
+  price,
+  location,
+}: TurfCardProps) => {
+  return (
+    <div className="border border-gray-200 rounded-3xl p-4 bg-white shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+      
+      <div className="h-52 bg-gray-200 rounded-2xl"></div>
+
+      <div className="mt-4 space-y-2">
+        <div className="flex items-start justify-between">
+          <h2 className="text-xl font-semibold text-gray-900">
+            {name}
+          </h2>
+
+          <span className="text-sm font-medium bg-gradient-to-r from-emerald-600 to-green-700 text-white px-3 py-1 rounded-full">
+            Turf
+          </span>
+        </div>
+
+        <p className="text-gray-500 text-sm">
+          📍 {location}
+        </p>
+
+        <p className="text-lg font-semibold text-gray-900">
+          ₹{price}
+          <span className="text-sm text-gray-500 font-normal">
+            {" "}
+            / hour
+          </span>
+        </p>
+
+        <Link
+          to={`/turf-details/${id}`}
+          className="block w-full text-center bg-gradient-to-r from-emerald-600 to-green-700 text-white py-3 rounded-xl hover:bg-gray-800 transition mt-4"
+        >
+          Book Now
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default TurfCard;
