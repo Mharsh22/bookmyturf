@@ -26,13 +26,20 @@ const Bookings = () => {
     "9 AM - 10 AM",
   ];
 
-  const bookedSlotsByDate: Record<string, string[]> = {
-    "2026-05-15": ["6 AM - 7 AM"],
-    "2026-05-16": ["8 AM - 9 AM"],
-  };
+  const existingBookings = JSON.parse(
+    localStorage.getItem("bookings") || "[]"
+  )
+
+  const filteredBookings = existingBookings.filter(
+    (booking: Booking) =>
+      booking.groundId === Number(id) &&
+      booking.date === formData.date
+  )
 
   const bookedSlots =
-    bookedSlotsByDate[formData.date] || [];
+    filteredBookings.map((booking: Booking) => (
+      booking.time
+    ))
 
   const bookedGround = grounds.find(
     (ground) => ground.id === Number(id)
@@ -108,7 +115,7 @@ const Bookings = () => {
       {bookingConfirmed ? (
         <section className="min-h-[80vh] flex items-center justify-center px-6">
           <div className="bg-white border border-gray-200 rounded-3xl p-10 shadow-sm text-center max-w-xl w-full">
-            
+
             <div className="w-20 h-20 rounded-full bg-green-100 text-green-700 flex items-center justify-center text-4xl mx-auto">
               ✓
             </div>
@@ -133,7 +140,7 @@ const Bookings = () => {
         <>
           <section className="bg-gradient-to-r from-emerald-600 to-green-700 text-white py-20">
             <div className="max-w-7xl mx-auto px-6">
-              
+
               <p className="uppercase tracking-widest text-sm text-gray-300">
                 Turf Booking
               </p>
@@ -149,17 +156,16 @@ const Bookings = () => {
           </section>
 
           <section className="max-w-5xl mx-auto px-6 py-14">
-            
+
             <div className="bg-white border border-gray-200 rounded-3xl shadow-sm p-8">
-              
+
               <div className="flex items-center gap-4 mb-10">
-                
+
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
-                    step === 1
+                  className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${step === 1
                       ? "bg-gradient-to-r from-emerald-600 to-green-700 text-white"
                       : "bg-gray-200 text-gray-600"
-                  }`}
+                    }`}
                 >
                   1
                 </div>
@@ -167,11 +173,10 @@ const Bookings = () => {
                 <div className="h-[2px] flex-1 bg-gray-200"></div>
 
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
-                    step === 2
+                  className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${step === 2
                       ? "bg-gradient-to-r from-emerald-600 to-green-700 text-white"
                       : "bg-gray-200 text-gray-600"
-                  }`}
+                    }`}
                 >
                   2
                 </div>
@@ -183,11 +188,11 @@ const Bookings = () => {
               >
                 {step === 1 && (
                   <div>
-                    
+
                     <div className="bg-gray-50 border border-gray-200 rounded-3xl p-6 mb-10">
-                      
+
                       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-                        
+
                         <div>
                           <h2 className="text-3xl font-bold text-gray-900">
                             {bookedGround?.name}
@@ -260,13 +265,12 @@ const Bookings = () => {
                                   time: slot,
                                 })
                               }
-                              className={`border rounded-2xl px-5 py-4 text-left transition-all duration-300 ${
-                                isBooked
+                              className={`border rounded-2xl px-5 py-4 text-left transition-all duration-300 ${isBooked
                                   ? "bg-gray-200 text-gray-500 cursor-not-allowed"
                                   : formData.time === slot
-                                  ? "bg-gradient-to-r from-emerald-600 to-green-700 text-white border-black"
-                                  : "bg-white hover:border-black"
-                              }`}
+                                    ? "bg-gradient-to-r from-emerald-600 to-green-700 text-white border-black"
+                                    : "bg-white hover:border-black"
+                                }`}
                             >
                               <p className="font-semibold">
                                 {slot}
@@ -307,7 +311,7 @@ const Bookings = () => {
 
                 {step === 2 && (
                   <div className="space-y-6">
-                    
+
                     <div>
                       <label className="block text-lg font-semibold text-gray-900">
                         Full Name
